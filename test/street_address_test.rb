@@ -507,6 +507,13 @@ class StreetAddressUsTest < MiniTest::Test
       :street_type => 'Dr',
       :prefix => 'S',
       :unit_prefix => 'Lbby',
+    },
+    "(PO Box 1288, Rome, GA, 30165)" => { # PO Box
+      :postal_code => '30165',
+      :city => "Rome",
+      :state => "GA",
+      :unit_prefix => 'Box',
+      :unit => "1288"
     }
   }
 
