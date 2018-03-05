@@ -510,18 +510,28 @@ class StreetAddressUsTest < MiniTest::Test
     },
     "(PO Box 1288, Rome, GA, 30165)" => { # PO Box with surronding punctuation
       :postal_code => '30165',
-      :city => "Rome",
-      :state => "GA",
+      :city => 'Rome',
+      :state => 'GA',
       :unit_prefix => 'Box',
-      :unit => "1288"
+      :unit => '1288'
     },
     "PO Box 1288, Rome, GA, 30165" => { # PO Box
       :postal_code => '30165',
-      :city => "Rome",
-      :state => "GA",
+      :city => 'Rome',
+      :state => 'GA',
       :unit_prefix => 'Box',
-      :unit => "1288"
+      :unit => '1288'
+    },
+    "PO Box 1288, Rome, GA, 30165-1288" => { # PO Box with Plus 4
+      :postal_code => '30165',
+      :postal_code_ext => '1288',
+      :city => 'Rome',
+      :state => 'GA',
+      :unit_prefix => 'Box',
+      :unit => '1288'
     }
+    
+    
   }
 
 

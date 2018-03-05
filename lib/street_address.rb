@@ -688,8 +688,7 @@ module StreetAddress
     self.informal_address_regexp = /
       \A
       \s*         # skip leading whitespace
-      (?:#{unit_regexp} #{sep_regexp})?
-      (?:#{place_regexp})?
+      (?:#{unit_regexp} #{sep_regexp} #{place_regexp})?
       (?:#{number_regexp})? \W*
       (?:#{fraction_regexp} \W*)?
       #{street_regexp} #{sep_avoid_unit_regexp}
