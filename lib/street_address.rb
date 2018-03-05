@@ -387,7 +387,7 @@ module StreetAddress
 
     UNIT_ABBREVIATIONS_NUMBERED = {
       /(?:ap|dep)(?:ar)?t(?:me?nt)?/i => "Apt",
-      /box/i           => 'Box',
+      /p\W*[om]\W*b(?:ox)?/i => 'PO Box',
       /bu?i?ldi?n?g/i => "Bldg",
       /dep(artmen)?t/i => "Dept",
       /flo*r?/i => "Fl",
@@ -395,12 +395,12 @@ module StreetAddress
       /lo?t/i  => 'Lot',
       /ro*m/i => "Rm",
       /pier/i  => 'Pier',
-      /p\W*[om]\W*b(?:ox)?/i => 'PO Box',
       /slip/i  => 'Slip',
       /spa?ce?/i => "Spc",
       /stop/i    => "Stop",
       /su?i?te/i => "Ste",
       /tra?i?le?r/i => "Trlr",
+      /box/i           => 'Box',
       /uni?t/i => 'Unit'
     }
 
