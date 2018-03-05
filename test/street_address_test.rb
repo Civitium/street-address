@@ -508,7 +508,14 @@ class StreetAddressUsTest < MiniTest::Test
       :prefix => 'S',
       :unit_prefix => 'Lbby',
     },
-    "(PO Box 1288, Rome, GA, 30165)" => { # PO Box
+    "(PO Box 1288, Rome, GA, 30165)" => { # PO Box with surronding punctuation
+      :postal_code => '30165',
+      :city => "Rome",
+      :state => "GA",
+      :unit_prefix => 'Box',
+      :unit => "1288"
+    },
+    "PO Box 1288, Rome, GA, 30165" => { # PO Box
       :postal_code => '30165',
       :city => "Rome",
       :state => "GA",
