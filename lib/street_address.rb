@@ -398,9 +398,10 @@ module StreetAddress
       /slip/i  => 'Slip',
       /spa?ce?/i => "Spc",
       /stop/i    => "Stop",
+      /drawer/i    => "Drawer",
       /su?i?te/i => "Ste",
       /tra?i?le?r/i => "Trlr",
-      /box/i           => 'Box',
+      /\w*(?<!po\W)box/i  => 'Box',
       /uni?t/i => 'Unit'
     }
 
@@ -603,7 +604,7 @@ module StreetAddress
       Regexp::IGNORECASE
     )
     self.dircode_regexp = Regexp.new(DIRECTION_CODES.keys.join("|"), Regexp::IGNORECASE)
-    self.zip_regexp     = /(?:(?<postal_code>\d{5})(?:-?(?<postal_code_ext>\d{4}))?)/
+    self.zip_regexp     = /(?:(?<postal_code>^[0-9]{5})(?:-?(?<postal_code_ext>\d{4}))?)/
     self.corner_regexp  = /(?:\band\b|\bat\b|&|\@)/i
 
     # we don't include letters in the number regex because we want to
