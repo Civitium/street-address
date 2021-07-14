@@ -608,7 +608,7 @@ module StreetAddress
 
     # We actually need to have some letters included in the number regex due to
     # some addresses in Wisconsin that use a grid system for their addresses.
-    self.number_regexp = /(?<number>(n|s|e|w)?\d+-?\d*)(?=\D)/ix
+    self.number_regexp = /(?<number>(n|w)?\d+-?\d*)(?=\D)/ix
 
     # note that expressions like [^,]+ may scan more than you expect
     self.street_regexp = /
