@@ -1,6 +1,6 @@
 module StreetAddress
   class US
-    VERSION = '2.0.1'
+    VERSION = '2.0.1.1'
 
     DIRECTIONAL = {
       "north" => "N",
