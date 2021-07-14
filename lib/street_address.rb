@@ -606,11 +606,9 @@ module StreetAddress
     self.zip_regexp     = /(?:(?<postal_code>\d{5})(?:-?(?<postal_code_ext>\d{4}))?)/
     self.corner_regexp  = /(?:\band\b|\bat\b|&|\@)/i
 
-    # we don't include letters in the number regex because we want to
-    # treat "42S" as "42 S" (42 South). For example,
-    # Utah and Wisconsin have a more elaborate system of block numbering
-    # http://en.wikipedia.org/wiki/House_number#Block_numbers
-    self.number_regexp = /(?<number>\d+-?\d*)(?=\D)/ix
+    # We actually need to have some letters included in the number regex due to
+    # some addresses in Wisconsin that use a grid system for their addresses.
+    self.number_regexp = /(?<number>(n|s|e|w)?\d+-?\d*)(?=\D)/ix
 
     # note that expressions like [^,]+ may scan more than you expect
     self.street_regexp = /
