@@ -104,7 +104,7 @@ class AddressTest < Minitest::Test
       :line2 => "Los Angeles, CA"
     },
     "1234 1/3 Fast Road, Los Angeles, CA" => {
-      :line1 => "1234 Fast Rd",
+      :line1 => "1234 1/3 Fast Rd",
       :line2 => "Los Angeles, CA"
     },
     "1 First St, e San Jose CA" => {

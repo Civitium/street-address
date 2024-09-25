@@ -212,6 +212,13 @@ class StreetAddressUsTest < Minitest::Test
       :city => 'Los Angeles',
       :street_type => 'Rd',
     },
+    "1234 1/3 Fast Road, Los Angeles, CA" => {
+      :number => '1234 1/3',
+      :street => 'Fast',
+      :state => 'CA',
+      :city => 'Los Angeles',
+      :street_type => 'Rd',
+    },
     "1 First St, e San Jose CA" => { # lower case city direction
       :number => '1',
       :street => 'First',
