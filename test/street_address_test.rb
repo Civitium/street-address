@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'street_address'
 
-class StreetAddressUsTest < MiniTest::Test
+class StreetAddressUsTest < Minitest::Test
   ADDRESSES = {
     "1005 Gravenstein Hwy 95472" => {
       :number => '1005',
@@ -206,7 +206,7 @@ class StreetAddressUsTest < MiniTest::Test
       :prefix => 'SE'
     },
     "3813 1/2 Some Road, Los Angeles, CA" => {
-      :number => '3813',
+      :number => '3813 1/2',
       :street => 'Some',
       :state => 'CA',
       :city => 'Los Angeles',
