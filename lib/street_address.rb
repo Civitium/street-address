@@ -1,6 +1,6 @@
 module StreetAddress
   class US
-    VERSION = '2.0.1.2'
+    VERSION = '2.0.1.3'
 
     DIRECTIONAL = {
       "north" => "N",
@@ -559,7 +559,6 @@ module StreetAddress
         :street_type_regexp,
         :street_type_matches,
         :number_regexp,
-        :fraction_regexp,
         :state_regexp,
         :city_and_state_regexp,
         :direct_regexp,
@@ -586,7 +585,6 @@ module StreetAddress
     }
 
     self.street_type_regexp = Regexp.new(STREET_TYPES_LIST.keys.join("|"), Regexp::IGNORECASE)
-    self.fraction_regexp = /\d+\/\d+/
     self.state_regexp = Regexp.new(
       '\b' + STATE_CODES.flatten.map{ |code| Regexp.quote(code) }.join("|") + '\b',
       Regexp::IGNORECASE
@@ -608,7 +606,7 @@ module StreetAddress
 
     # We actually need to have some letters included in the number regex due to
     # some addresses in Wisconsin that use a grid system for their addresses.
-    self.number_regexp = /(?<number>(n|w)?\d+-?\d*)(?=\D)/ix
+    self.number_regexp = /(?<number>\d+-?\d*(?:\s1\/2|\s1\/4)?)(?=\D)/ix
 
     # note that expressions like [^,]+ may scan more than you expect
     self.street_regexp = /
@@ -670,9 +668,8 @@ module StreetAddress
 
     self.address_regexp = /
       \A
-      [^\w\x23]*    # skip non-word chars except # (eg unit)
+      [^\w\x23\/]*    # skip non-word chars except # (eg unit)
       #{number_regexp} \W*
-      (?:#{fraction_regexp}\W*)?
       #{street_regexp}\W+
       (?:#{unit_regexp}\W+)?
       #{place_regexp}
@@ -688,7 +685,6 @@ module StreetAddress
       \s*         # skip leading whitespace
       (?:#{unit_regexp} #{sep_regexp})?
       (?:#{number_regexp})? \W*
-      (?:#{fraction_regexp} \W*)?
       #{street_regexp} #{sep_avoid_unit_regexp}
       (?:#{unit_regexp} #{sep_regexp})?
       (?:#{place_regexp})?
@@ -774,11 +770,8 @@ module StreetAddress
           input.each_key { |k|
             input[k].strip!
 
-            if k != "street"
-              input[k].gsub!(/[^\w\s\-\#\&]/, '')
-            else
-              input[k].gsub!(/[^\w\s\-\#\&\/]/, '')
-            end
+            pattern = (k == "number" || k == "street") ? /[^\w\s\-\#\&\/]/ : /[^\w\s\-\#\&]/
+            input[k].gsub!(pattern, '')
           }
 
           input['redundant_street_type'] = false
