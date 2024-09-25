@@ -670,7 +670,7 @@ module StreetAddress
 
     self.address_regexp = /
       \A
-      [^\w\x23\/]*    # skip non-word chars except # (eg unit)
+      [^\w\x23]*    # skip non-word chars except # (eg unit)
       #{number_regexp} \W*
       (?:#{fraction_regexp}\W*)?
       #{street_regexp}\W+
