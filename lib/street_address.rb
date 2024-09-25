@@ -1,6 +1,6 @@
 module StreetAddress
   class US
-    VERSION = '2.0.1.2'
+    VERSION = '2.0.1.3'
 
     DIRECTIONAL = {
       "north" => "N",
@@ -586,7 +586,7 @@ module StreetAddress
     }
 
     self.street_type_regexp = Regexp.new(STREET_TYPES_LIST.keys.join("|"), Regexp::IGNORECASE)
-    self.fraction_regexp = /\d+\/\d+/
+    self.fraction_regexp = /(?<fractional>\d+\/\d+)/
     self.state_regexp = Regexp.new(
       '\b' + STATE_CODES.flatten.map{ |code| Regexp.quote(code) }.join("|") + '\b',
       Regexp::IGNORECASE
@@ -774,12 +774,14 @@ module StreetAddress
           input.each_key { |k|
             input[k].strip!
 
-            if k != "street"
-              input[k].gsub!(/[^\w\s\-\#\&]/, '')
-            else
-              input[k].gsub!(/[^\w\s\-\#\&\/]/, '')
-            end
+            pattern = (k == "number" || k == "street" || k == "fractional")  ? /[^\w\s\-\#\&\/]/ : /[^\w\s\-\#\&]/
+            input[k].gsub!(pattern, '')
           }
+
+          if( input['fractional'] )
+            input['number'] = input['number'] + ' ' + input['fractional']
+            input.delete('fractional')
+          end
 
           input['redundant_street_type'] = false
           if( input['street'] && !input['street_type'] )
