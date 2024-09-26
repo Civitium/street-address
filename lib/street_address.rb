@@ -387,7 +387,7 @@ module StreetAddress
 
     UNIT_ABBREVIATIONS_NUMBERED = {
       /(?:ap|dep)(?:ar)?t(?:me?nt)?/i => "Apt",
-      /box/i           => 'Box',
+      /p\W*[om]\W*b(?:ox)?/i => 'PO Box',
       /bu?i?ldi?n?g/i => "Bldg",
       /dep(artmen)?t/i => "Dept",
       /flo*r?/i => "Fl",
@@ -395,12 +395,13 @@ module StreetAddress
       /lo?t/i  => 'Lot',
       /ro*m/i => "Rm",
       /pier/i  => 'Pier',
-      /p\W*[om]\W*b(?:ox)?/i => 'PO Box',
       /slip/i  => 'Slip',
       /spa?ce?/i => "Spc",
       /stop/i    => "Stop",
+      /drawer/i    => "Drawer",
       /su?i?te/i => "Ste",
       /tra?i?le?r/i => "Trlr",
+      /\w*(?<!po\W)box/i  => 'Box',
       /uni?t/i => 'Unit'
     }
 
@@ -603,7 +604,7 @@ module StreetAddress
       Regexp::IGNORECASE
     )
     self.dircode_regexp = Regexp.new(DIRECTION_CODES.keys.join("|"), Regexp::IGNORECASE)
-    self.zip_regexp     = /(?:(?<postal_code>\d{5})(?:-?(?<postal_code_ext>\d{4}))?)/
+    self.zip_regexp     = /(?:(?<postal_code>^[0-9]{5})(?:-?(?<postal_code_ext>\d{4}))?)/
     self.corner_regexp  = /(?:\band\b|\bat\b|&|\@)/i
 
     # We actually need to have some letters included in the number regex due to
@@ -686,7 +687,7 @@ module StreetAddress
     self.informal_address_regexp = /
       \A
       \s*         # skip leading whitespace
-      (?:#{unit_regexp} #{sep_regexp})?
+      (?:#{unit_regexp} #{sep_regexp} #{place_regexp})?
       (?:#{number_regexp})? \W*
       (?:#{fraction_regexp} \W*)?
       #{street_regexp} #{sep_avoid_unit_regexp}
