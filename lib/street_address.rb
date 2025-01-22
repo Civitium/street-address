@@ -567,6 +567,7 @@ module StreetAddress
         :corner_regexp,
         :unit_regexp,
         :street_regexp,
+        :prefix_regexp,
         :place_regexp,
         :address_regexp,
         :informal_address_regexp,
