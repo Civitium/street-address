@@ -1,6 +1,6 @@
 module StreetAddress
   class US
-    VERSION = '2.0.1.3'
+    VERSION = '2.0.1.4'
 
     DIRECTIONAL = {
       "north" => "N",
@@ -554,6 +554,9 @@ module StreetAddress
       'state'   => STATE_CODES,
     }
 
+    COUNTY_ROAD_REGEX = /\b(?:county\s+road|farm\s+road|county\s+rd|farm\s+rd|cty\s+rd|farm\s+to\s+market|co\s+rd|co\s+road|country\s+road|country\s+rd|fm\s*\d+|c\s*r\s*\d+|c\s*rd\s*\d+)\b/i
+
+
     class << self
       attr_accessor(
         :street_type_regexp,
@@ -810,6 +813,12 @@ module StreetAddress
               type_regexp = street_type_matches[type.downcase] # || fail "No STREET_TYPE_MATCH for #{type}"
               input.delete('street_type' + suffix) if type_regexp.match(street)
             }
+          end
+
+          if input['street']
+            if COUNTY_ROAD_REGEX.match?(input['street'])
+              input.delete('street_type')
+            end
           end
 
           # attempt to expand directional prefixes on place names
