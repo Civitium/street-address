@@ -291,7 +291,7 @@ class StreetAddressUsTest < Minitest::Test
       :postal_code => '80615',
       :number => '36401',
       :street => 'County Road 43',
-      :street_type => 'Rd',
+      :street_type => nil,
       :state => 'CO'
     },
     "1234 COUNTY HWY 60E, Town, CO 12345" => {
@@ -385,7 +385,7 @@ class StreetAddressUsTest < Minitest::Test
     'N5781 County Rd J, Ellsworth, WI 54011' => { # Redundant street name with Wisconsin Grid Address
       :number=>'N5781',
       :street=>'County Rd J',
-      :street_type=> 'Rd',
+      :street_type=> nil,
       :city=>'Ellsworth',
       :state=>'WI',
       :postal_code=>'54011',
@@ -669,6 +669,24 @@ class StreetAddressUsTest < Minitest::Test
   def compare_expected_to_actual_hash(expected, actual, address)
     expected.each_pair do |expected_key, expected_value|
       assert_equal expected_value, actual[expected_key], "For address '#{address}',  #{actual[expected_key]} != #{expected_value}"
+    end
+  end
+
+  def test_street_type_is_nil_for_county_roads
+    cases = {
+      "36402 Cty Rd 44, Eaton, CO 80615" => 'Cty Rd 44',
+      "36403 Co Road 45, Eaton, CO 80615" => 'Co Road 45',
+      "36404 Country Rd 46, Eaton, CO 80615" => 'Country Rd 46',
+      "36405 Farm Rd 47, Eaton, CO 80615" => 'Farm Rd 47',
+      "36406 FM1234, Eaton, CO 80615" => 'Fm1234',
+      "36407 CR12, Eaton, CO 80615" => 'Cr12',
+      "36408 C RD 13, Eaton, CO 80615" => 'C Rd 13',
+    }
+
+    cases.each_pair do |address, expected_street|
+      parsed_address = StreetAddress::US.parse(address)
+      assert_equal expected_street, parsed_address.street, "street mismatch for '#{address}'"
+      assert_nil parsed_address.street_type, "street_type should be nil for '#{address}'"
     end
   end
 
